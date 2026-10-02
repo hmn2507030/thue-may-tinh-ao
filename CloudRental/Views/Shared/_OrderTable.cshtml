@@ -1,5 +1,0 @@
-@model List<Order>
-@if(Model.Count==0) { <div class="empty-state"><h3>Chưa có đơn hàng</h3><p>Chọn gói phù hợp để tạo đơn thuê đầu tiên.</p><a class="btn btn-primary" asp-controller="Plans" asp-action="Index">Khám phá các gói</a></div> }
-else { <div class="table-wrap"><table><thead><tr><th>Mã đơn</th><th>Gói dịch vụ</th><th>Thời hạn</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày đặt</th><th></th></tr></thead><tbody>
-@foreach(var o in Model) { <tr><td>#@o.Id.ToString("D5")</td><td><strong>@o.PlanName</strong><small class="block muted">@o.CPU vCPU / @o.RAM GB / @o.Storage GB</small></td><td>@o.Months tháng</td><td>@Display.Money(o.Total)</td><td><span class="badge-state @o.Status.ToString().ToLowerInvariant()">@Display.Status(o.Status)</span></td><td>@Display.Date(o.CreatedAt)</td><td>@if(o.Status==OrderStatus.Pending) { <form asp-controller="Orders" asp-action="Cancel" asp-route-id="@o.Id" method="post" data-confirm="Hủy đơn hàng này?"><button type="submit" class="btn btn-small btn-outline">Hủy đơn</button></form> }</td></tr> }
-</tbody></table></div> }
