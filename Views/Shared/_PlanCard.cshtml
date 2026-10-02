@@ -1,0 +1,9 @@
+@model Plan
+<article class="plan-card">
+<div class="card-top"><span class="type-chip">@(Model.Type==PlanType.VPS ? "LINUX VPS" : "VIRTUAL DESKTOP")</span><span class="plan-dot"></span></div>
+<h3>@Model.Name</h3><p class="plan-description">@Model.Description</p>
+<div class="price">@Display.Money(Model.PricePerMonth)<small>/ tháng</small></div>
+<ul class="spec-list"><li><span>CPU</span><strong>@Model.CPU vCPU</strong></li><li><span>Bộ nhớ</span><strong>@Model.RAM GB RAM</strong></li><li><span>Lưu trữ</span><strong>@Model.Storage GB SSD</strong></li><li><span>Hình thức</span><strong>Mô phỏng</strong></li></ul>
+<a class="btn btn-primary full" asp-controller="Orders" asp-action="Checkout" asp-route-id="@Model.Id">Chọn gói này <span aria-hidden="true">↗</span></a>
+<a class="details-link" asp-controller="Plans" asp-action="Details" asp-route-id="@Model.Id">Xem chi tiết cấu hình</a>
+</article>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@ViewData["Title"] | CloudRental</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head><body>
+<header class="site-header"><div class="shell nav-wrap">
+<a class="brand" asp-controller="Home" asp-action="Index"><span class="brand-mark">C</span> CloudRental<span class="demo-chip">ĐỒ ÁN</span></a>
+<button class="menu-button" id="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav">Menu</button>
+<nav id="main-nav"><a asp-controller="Home" asp-action="Index">Trang chủ</a><a asp-controller="Plans" asp-action="Index">Gói dịch vụ</a>
+@if (User.Identity?.IsAuthenticated == true) {
+<a asp-controller="Dashboard" asp-action="Index">Máy ảo của tôi</a><a asp-controller="Orders" asp-action="Index">Đơn hàng</a>
+@if(User.IsInRole("Admin")) { <a asp-controller="Admin" asp-action="Index">Quản trị</a> }
+<form asp-controller="Account" asp-action="Logout" method="post"><button class="btn btn-small btn-outline" type="submit">Đăng xuất</button></form>
+} else { <a asp-controller="Account" asp-action="Login">Đăng nhập</a><a class="btn btn-small btn-primary" asp-controller="Account" asp-action="Register">Bắt đầu ngay</a> }
+</nav></div></header>
+<main class="shell main-content">
+@if(TempData["Success"] is string success) { <div role="status" class="notice success">@success</div> }
+@if(TempData["Error"] is string error) { <div role="alert" class="notice error">@error</div> }
+@RenderBody()
+</main>
+<footer><div class="shell footer-grid"><div><a class="brand" asp-controller="Home" asp-action="Index">CloudRental</a><p>Nền tảng cho thuê máy tính ảo - đồ án cơ sở.</p></div><div><strong>Chỉ dùng cho học tập và trình diễn</strong><p>Không thanh toán thật. Không cấp VPS hay Remote Desktop thật.<br />Thời gian hiển thị theo UTC+7.</p></div></div></footer>
+<script src="~/js/site.js" asp-append-version="true" defer></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body></html>

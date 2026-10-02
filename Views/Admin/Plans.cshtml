@@ -1,0 +1,7 @@
+@model List<Plan>
+@{ ViewData["Title"]="Quản lý gói dịch vụ"; }
+<div class="section-heading"><div><span class="eyebrow">CATALOG</span><h1>Quản lý gói dịch vụ</h1></div><a class="btn btn-primary" asp-action="EditPlan">+ Thêm gói mới</a></div>
+<partial name="_AdminNav" />
+<div class="table-wrap"><table><thead><tr><th>Gói</th><th>Loại</th><th>Cấu hình</th><th>Giá / tháng</th><th>Hiển thị</th><th></th></tr></thead><tbody>
+@foreach(var p in Model) { <tr><td><strong>@p.Name</strong><small class="block muted">@p.Description</small></td><td>@p.Type</td><td>@p.CPU / @p.RAM / @p.Storage</td><td>@Display.Money(p.PricePerMonth)</td><td><span class="badge-state @(p.IsActive ? "running" : "stopped")">@(p.IsActive ? "Đang bán" : "Đã ẩn")</span></td><td class="table-actions"><a class="btn btn-small btn-outline" asp-action="EditPlan" asp-route-id="@p.Id">Sửa</a><form asp-action="TogglePlan" asp-route-id="@p.Id" method="post"><button class="btn btn-small btn-outline">@(p.IsActive ? "Ẩn" : "Hiện")</button></form><form asp-action="DeletePlan" asp-route-id="@p.Id" method="post" data-confirm="Xóa gói dịch vụ này?"><button class="btn btn-small btn-outline">Xóa</button></form></td></tr> }
+</tbody></table></div>

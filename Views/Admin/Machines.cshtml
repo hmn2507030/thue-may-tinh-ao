@@ -1,0 +1,8 @@
+@model List<VirtualMachine>
+@{ ViewData["Title"]="Máy ảo khách hàng"; }
+<div class="page-heading"><span class="eyebrow">INFRASTRUCTURE</span><h1>Máy ảo khách hàng</h1><p class="lead">Danh sách máy ảo mô phỏng đã cấp, kèm trạng thái và thời hạn thuê.</p></div>
+<partial name="_AdminNav" />
+@if(Model.Count==0) { <div class="empty-state"><h3>Chưa có máy ảo</h3><p>Máy ảo xuất hiện khi bạn duyệt một đơn hàng.</p></div> }
+else { <div class="table-wrap"><table><thead><tr><th>Tên máy</th><th>Khách hàng</th><th>Gói dịch vụ</th><th>Đơn hàng</th><th>Trạng thái</th><th>Hết hạn</th></tr></thead><tbody>
+@foreach(var vm in Model) { <tr><td><strong>@vm.VmName</strong><small class="block muted"><code>@vm.IpAddress</code></small></td><td>@vm.User.FullName<small class="block muted">@vm.User.Email</small></td><td>@vm.Order.PlanName</td><td>#@vm.OrderId.ToString("D5")</td><td><span class="badge-state @vm.Status.ToString().ToLowerInvariant()">@Display.Status(vm.Status)</span></td><td>@Display.Date(vm.ExpiresAt)</td></tr> }
+</tbody></table></div> }
