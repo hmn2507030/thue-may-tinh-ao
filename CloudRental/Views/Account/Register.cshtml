@@ -1,0 +1,8 @@
+@model RegisterVm
+@{ ViewData["Title"]="Tạo tài khoản"; }
+<div class="auth-layout"><div class="auth-copy"><span class="eyebrow">BẮT ĐẦU VỚI CLOUDRENTAL</span><h1>Workspace của bạn.<br />Sẵn sàng từ đây.</h1><p>Tạo tài khoản để chọn gói, theo dõi đơn hàng và quản lý máy ảo mô phỏng.</p><div class="notice">Không yêu cầu thẻ ngân hàng. Không phát sinh thanh toán thật.</div></div><section class="panel auth-panel"><h2>Tạo tài khoản</h2><p class="muted">Điền thông tin để bắt đầu trải nghiệm.</p><form asp-action="Register" method="post"><div asp-validation-summary="All" class="validation"></div>
+<label asp-for="FullName">Họ và tên</label><input asp-for="FullName" autocomplete="name" required maxlength="100" />
+<label asp-for="Email">Email</label><input asp-for="Email" autocomplete="email" required />
+<label asp-for="Password">Mật khẩu</label><input asp-for="Password" autocomplete="new-password" required minlength="10" /><small class="muted">Tối thiểu 10 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.</small>
+<label asp-for="ConfirmPassword">Nhập lại mật khẩu</label><input asp-for="ConfirmPassword" autocomplete="new-password" required />
+<button class="btn btn-primary full form-submit">Đăng ký</button></form><p class="auth-bottom">Đã có tài khoản? <a asp-action="Login">Đăng nhập</a></p></section></div>

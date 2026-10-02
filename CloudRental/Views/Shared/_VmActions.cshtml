@@ -1,0 +1,7 @@
+@model VirtualMachine
+@if(Model.ExpiresAt<=DateTime.UtcNow) { <div class="notice error">Gói thuê đã hết hạn. Các thao tác đã bị khóa.</div> }
+else { <div class="actions">
+<form asp-controller="Dashboard" asp-action="Command" asp-route-id="@Model.Id" method="post"><input name="operation" value="start" type="hidden" /><button class="btn btn-primary" disabled="@(Model.Status!=VmStatus.Stopped)">Start</button></form>
+<form asp-controller="Dashboard" asp-action="Command" asp-route-id="@Model.Id" method="post" data-confirm="Dừng máy ảo mô phỏng?"><input name="operation" value="stop" type="hidden" /><button class="btn btn-outline" disabled="@(Model.Status!=VmStatus.Running)">Stop</button></form>
+<form asp-controller="Dashboard" asp-action="Command" asp-route-id="@Model.Id" method="post" data-confirm="Khởi động lại máy ảo mô phỏng?"><input name="operation" value="restart" type="hidden" /><button class="btn btn-outline" disabled="@(Model.Status!=VmStatus.Running)">Restart</button></form>
+</div> }

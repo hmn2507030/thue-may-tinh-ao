@@ -1,0 +1,7 @@
+@model AdminOverviewVm
+@{ ViewData["Title"]="Bảng điều khiển quản trị"; }
+<div class="page-heading"><span class="eyebrow">ADMIN CONSOLE</span><h1>Xin chào, quản trị viên</h1><p class="lead">Theo dõi tài khoản, đơn hàng và máy ảo trong toàn hệ thống.</p></div>
+<partial name="_AdminNav" />
+<div class="stats-grid four"><div class="stat"><span>Tài khoản</span><strong>@Model.Users</strong></div><div class="stat"><span>Gói dịch vụ</span><strong>@Model.Plans</strong></div><div class="stat"><span>Đơn chờ duyệt</span><strong>@Model.Pending</strong></div><div class="stat"><span>Máy ảo</span><strong>@Model.Machines</strong></div></div>
+<section class="panel"><h3>Doanh thu mô phỏng từ đơn đã duyệt</h3><div class="price">@Display.Money(Model.ApprovedTotal)</div><p class="muted">Số liệu tổng hợp dùng cho báo cáo đồ án. Không phát sinh giao dịch thật.</p></section>
+<div class="section-heading"><h2>Đơn hàng gần đây</h2><a asp-action="Orders">Quản lý tất cả đơn →</a></div><partial name="_OrderTable" model="Model.Recent" />
