@@ -7,8 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection"), sql => sql.EnableRetryOnFailure()));
+
+
+var connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
+if (connection.Contains("Data Source="))
+    builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite(connection));
+else
+    builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connection,
+        sql => sql.EnableRetryOnFailure()));
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(o => {
     o.User.RequireUniqueEmail = true;
     o.Password.RequiredLength = 10;
@@ -27,9 +34,12 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(
     Path.Combine(builder.Environment.ContentRootPath, ".keys"))).SetApplicationName("CloudRental");
 builder.Services.AddSingleton<VmSecrets>();
 builder.Services.AddHostedService<VmSimulator>();
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Home/Error"); app.UseHsts(); }
-app.UseHttpsRedirection();
+
+
+
 app.Use(async (context, next) => {
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
     context.Response.Headers["Referrer-Policy"] = "same-origin";
@@ -37,6 +47,12 @@ app.Use(async (context, next) => {
     await next();
 });
 app.UseStaticFiles(); app.UseRouting(); app.UseAuthentication(); app.UseAuthorization();
-using (var scope = app.Services.CreateScope()) await SeedData.Initialize(scope.ServiceProvider, app.Configuration);
+
+
+{
+    using var scope = app.Services.CreateScope();
+    await SeedData.Initialize(scope.ServiceProvider, app.Configuration);
+}
+
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.Run();
